@@ -1,123 +1,83 @@
 class Book:
-    """
-    Базовый класс для представления книги.
-    """
+    """ Базовый класс книги. """
 
     def __init__(self, name: str, author: str):
-        """
-        Инициализирует объект книги.
-        """
-
-        self._name = name  # Защищенное поле для названия книги
-        self._author = author  # Защищенное поле для автора книги
+        # Инициализация name и author
+        self._name = name
+        self._author = author
 
     @property
     def name(self):
-        """
-        Возвращает название книги.
-        """
-
+        # Свойство для чтения name
         return self._name
 
     @property
     def author(self):
-        """
-        Возвращает автора книги.
-        """
-
+        # Свойство для чтения author
         return self._author
 
     def __str__(self):
-        """
-        Возвращает строковое представление объекта книги.
-        """
-
+        # Строковое представление
         return f"Книга {self.name}. Автор {self.author}"
 
     def __repr__(self):
-        """
-        Возвращает строковое представление объекта для отладки.
-        """
-
+        # Оф строковое представление
         return f"{self.__class__.__name__}(name={self.name!r}, author={self.author!r})"
 
-
 class PaperBook(Book):
-    """
-    Класс для представления бумажной книги, наследуется от Book.
-    """
-
     def __init__(self, name: str, author: str, pages: int):
-        """
-        Инициализирует объект бумажной книги.
-        """
-
-        super().__init__(name, author)  # Вызов конструктора родительского класса
-        self.pages = pages  # Инициализация количества страниц через сеттер
+        # Вызываем конструктор базового класса
+        super().__init__(name, author)
+        # Инициализация pages
+        self.pages = pages
 
     @property
     def pages(self):
-        """
-        Возвращает количество страниц в книге.
-        """
-
+        # Свойство для чтения pages
         return self._pages
 
     @pages.setter
     def pages(self, value):
-        """
-        Устанавливает количество страниц, проверяя корректность значения.
-        """
-
+        # Проверка на тип и значение для pages
         if not isinstance(value, int):
-            raise TypeError("Количество страниц должно быть целым числом.")
+            raise TypeError("Количество страниц должно быть целым числом")
         if value <= 0:
-            raise ValueError(
-                "Количество страниц должно быть положительным целым числом."
-            )
+            raise ValueError("Количество страниц должно быть положительным числом")
         self._pages = value
 
     def __str__(self):
-        """
-        Возвращает строковое представление объекта бумажной книги.
-        """
-        return (
-            f"Книга {self.name} (бумажная). Автор {self.author}. Страниц: {self.pages}"
-        )
+        # Строковое представление
+        return f"Книга {self.name}. Автор {self.author}. Количество страниц {self.pages}"
 
-    class AudioBook(Book):
-        """
-        Класс для представления аудиокниги, наследуется от Book.
-        """
+    def __repr__(self):
+        # Оф строковое представление
+        return f"{self.__class__.__name__}(name={self.name!r}, author={self.author!r}, pages={self.pages!r})"
 
-        def __init__(self, name: str, author: str, duration: float):
-            """
-            Инициализирует объект аудиокниги.
-            """
-            super().__init__(name, author)  # Вызов конструктора родительского класса
-            self.duration = duration  # Инициализация продолжительности через сеттер
+class AudioBook(Book):
+    def __init__(self, name: str, author: str, duration: float):
+        # Вызываем конструктор базового класса
+        super().__init__(name, author)
+        # Инициализация duration
+        self.duration = duration
 
-        @property
-        def duration(self):
-            """
-            Возвращает продолжительность аудиокниги.
-            """
-            return self._duration
+    @property
+    def duration(self):
+        # Свойство для чтения duration
+        return self._duration
 
-        # Сеттер проверяет тип данных и гарантирует, что продолжительность книги является положительным числом.
-        @duration.setter
-        def duration(self, value):
-            """
-            Устанавливает продолжительность аудиокниги, проверяя корректность значения.
-            """
-            if not isinstance(value, (int, float)):
-                raise TypeError("Продолжительность должна быть числом.")
-            if value <= 0:
-                raise ValueError("Продолжительность должна быть положительным числом.")
-            self._duration = value
+    @duration.setter
+    def duration(self, value):
+        # Проверка на тип и значение для duration
+        if not isinstance(value, (int, float)):
+            raise TypeError("Продолжительность должна быть числом с плавающей запятой")
+        if value <= 0:
+            raise ValueError("Продолжительность должна быть положительным числом")
+        self._duration = value
 
-        def __str__(self):
-            """
-            Возвращает строковое представление объекта аудиокниги.
-            """
-            return f"Книга {self.name} (аудио). Автор {self.author}. Длительность: {self.duration} часов"
+    def __str__(self):
+        # Строковое представление
+        return f"Книга {self.name}. Автор {self.author}. Продолжительность {self.duration} часов"
+
+    def __repr__(self):
+        # Оф строковое представление
+        return f"{self.__class__.__name__}(name={self.name!r}, author={self.author!r}, duration={self.duration!r})"
